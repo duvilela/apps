@@ -57,4 +57,4 @@ Aproveite para testar todo o fluxo do sistema na demonstração:
 1. **Dashboard Dinâmico**: Alterne entre a "Banca Principal" (em BRL) e a "Banca de Basquete NBA" (em USD) no canto superior direito e observe a conversão de moedas nos KPIs e os 4 gráficos (Chart.js) se atualizarem.
 2. **CRUD de Apostas**: Clique em `+ Aposta` no Dashboard ou vá na tela de `Minhas Apostas` para criar, editar ou excluir entradas. O saldo atualizado da banca será recalculado instantaneamente.
 3. **Mini Calendário**: Identifique os dias em que foram feitas apostas no mini calendário (bolinha verde para dias com lucro, vermelha para prejuízo). Clique em qualquer dia para filtrar as apostas daquela data.
-4. **Painel Administrativo**: Faça o login como administrador (`admin@dashboard.com.br`) e clique em **Painel Admin** no menu lateral. Você poderá visualizar a lista agregada de todos os usuários do sistema e testar a **exclusão em cascata** (que remove o usuário e todas as bancas/apostas associadas a ele de forma limpa).
+   
