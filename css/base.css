@@ -1,0 +1,151 @@
+/* Estilos do Painel de Base de Dados */
+
+.backup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.backup-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.backup-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.backup-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.backup-card-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Icon Circle Styling with Glassmorphism Glow */
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.icon-circle.primary {
+  background-color: rgba(37, 99, 235, 0.15);
+  color: var(--accent-color);
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.icon-circle.success {
+  background-color: var(--success-glow);
+  color: var(--success-color);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.backup-card:hover .icon-circle {
+  transform: scale(1.05);
+}
+
+.backup-description {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.warning-text {
+  display: block;
+  margin-top: 12px;
+  color: var(--warning-color);
+  font-weight: 500;
+}
+
+/* Action Area & Custom File Upload Dropzone */
+.backup-action-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.file-upload-wrapper {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.02);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+}
+
+.file-upload-wrapper:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: var(--text-secondary);
+}
+
+.file-upload-wrapper.dragover {
+  background-color: rgba(37, 99, 235, 0.05);
+  border-color: var(--accent-color);
+}
+
+.file-upload-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 100%;
+  padding: 12px;
+  display: block;
+  word-break: break-all;
+}
+
+/* Custom Success/Error Notification Alert Box */
+.alert-box {
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeIn var(--transition-normal);
+}
+
+.alert-box.success {
+  background-color: var(--success-glow);
+  color: var(--success-color);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.alert-box.danger {
+  background-color: var(--danger-glow);
+  color: var(--danger-color);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

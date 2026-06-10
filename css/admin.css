@@ -1,0 +1,184 @@
+/* Admin specific styles */
+
+/* Overview KPIs */
+.admin-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge-admin {
+  background-color: var(--info-glow);
+  color: var(--info-color);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.badge-user {
+  background-color: var(--bg-input);
+  color: var(--text-secondary);
+  border: 1px solid rgba(156, 163, 175, 0.2);
+}
+
+/* User Table */
+.users-table-wrapper {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 32px;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.users-table th,
+.users-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+}
+
+.users-table th {
+  background-color: rgba(31, 41, 55, 0.6);
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.users-table td {
+  border-bottom: 1px solid rgba(55, 65, 81, 0.4);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.users-table tr:last-child td {
+  border-bottom: none;
+}
+
+.users-table tbody tr:hover {
+  background-color: rgba(55, 65, 81, 0.2);
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action-icon:hover {
+  background-color: var(--bg-input);
+  color: #fff;
+}
+
+.btn-action-icon.danger:hover {
+  background-color: var(--danger-glow);
+  color: var(--danger-color);
+}
+
+/* Mobile Responsive List */
+.users-mobile-list {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.user-mobile-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.user-mobile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(55, 65, 81, 0.4);
+  padding-bottom: 8px;
+}
+
+.user-mobile-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+}
+
+.user-mobile-email {
+  font-size: 13px;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+
+.user-mobile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.user-mobile-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-mobile-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.user-mobile-stat-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-mobile-actions {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(55, 65, 81, 0.4);
+  padding-top: 12px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .users-table-wrapper {
+    display: none;
+  }
+  .users-mobile-list {
+    display: flex;
+  }
+}

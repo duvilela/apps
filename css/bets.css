@@ -1,0 +1,246 @@
+/* Filtros Avançados */
+.filter-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  align-items: flex-end;
+}
+
+/* Faixa de Resumo da Consulta Filtrada */
+.bets-summary-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-strip-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-strip-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.summary-strip-value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.summary-strip-value.positive {
+  color: var(--success-color);
+}
+
+.summary-strip-value.negative {
+  color: var(--danger-color);
+}
+
+/* Tabela de Apostas (Desktop) */
+.bets-table-wrapper {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 32px;
+}
+
+.bets-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.bets-table th,
+.bets-table td {
+  padding: 16px 20px;
+  font-size: 14px;
+}
+
+.bets-table th {
+  background-color: rgba(31, 41, 55, 0.6);
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bets-table td {
+  border-bottom: 1px solid rgba(55, 65, 81, 0.4);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.bets-table tr:last-child td {
+  border-bottom: none;
+}
+
+.bets-table tbody tr:hover {
+  background-color: rgba(55, 65, 81, 0.2);
+}
+
+.table-sport-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-input);
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action-icon:hover {
+  background-color: var(--bg-input);
+  color: #fff;
+}
+
+.btn-action-icon.danger:hover {
+  background-color: var(--danger-glow);
+  color: var(--danger-color);
+}
+
+/* Lista Compacta de Apostas (Mobile) */
+.bets-mobile-list {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.bet-mobile-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.mobile-card-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: #fff;
+}
+
+.mobile-card-date {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.mobile-card-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(55, 65, 81, 0.4);
+  border-bottom: 1px solid rgba(55, 65, 81, 0.4);
+}
+
+.mobile-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobile-detail-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.mobile-detail-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.mobile-detail-profit {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.mobile-detail-profit.positive {
+  color: var(--success-color);
+}
+
+.mobile-detail-profit.negative {
+  color: var(--danger-color);
+}
+
+/* Ajustes Responsivos */
+@media (max-width: 992px) {
+  .bets-summary-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .bets-table-wrapper {
+    display: none;
+  }
+  
+  .bets-mobile-list {
+    display: flex;
+  }
+  
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+}
+
+/* Espaçamento do Cabeçalho e Botão Nova Entrada */
+.dashboard-header {
+  margin-bottom: 40px;
+}
