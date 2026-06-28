@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculadora de Surebets (Arbitragem Esportiva) online e gratuita. Descubra se uma aposta garante lucros matemáticos e calcule a distribuição ideal de valores para 2 ou 3 casas de apostas.">
+    <meta name="keywords" content="surebet, arbitragem esportiva, calculadora surebet, apostas esportivas, lucro garantido, odds, betano, rivalo">
+    <meta name="author" content="Antigravity">
+    <title>SureCalc | Calculadora de Surebets & Arbitragem Esportiva</title>
+    
+    <!-- Google Fonts - Plus Jakarta Sans & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dark-theme">
+    <div class="background-glows">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
+
+    <header class="app-header">
+        <div class="container header-container">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-calculator-combined"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Sure<span>Calc</span></h1>
+                    <p>Calculadora de Arbitragem Esportiva</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="theme-toggle" class="btn-icon" title="Alternar Tema" aria-label="Alternar Tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <div class="grid-layout">
+            <!-- Left Column: Inputs & Controls -->
+            <section class="calculator-card card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-sliders-h"></i> Configuração da Aposta</h2>
+                    <p>Insira os dados das odds e o investimento para calcular.</p>
+                </div>
+                
+                <div class="control-group">
+                    <label class="section-label">Número de Resultados (Casas)</label>
+                    <div class="segmented-control" role="radiogroup" aria-label="Número de resultados">
+                        <input type="radio" name="outcomes-count" id="outcomes-2" value="2" checked>
+                        <label for="outcomes-2"><i class="fa-solid fa-2"></i> 2 Resultados</label>
+                        
+                        <input type="radio" name="outcomes-count" id="outcomes-3" value="3">
+                        <label for="outcomes-3"><i class="fa-solid fa-3"></i> 3 Resultados</label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="section-label">Modo de Cálculo</label>
+                    <div class="segmented-control mode-control" role="radiogroup" aria-label="Modo de cálculo">
+                        <input type="radio" name="calc-mode" id="mode-total" value="total" checked>
+                        <label for="mode-total">Investimento Total</label>
+                        
+                        <input type="radio" name="calc-mode" id="mode-fixed" value="fixed">
+                        <label for="mode-fixed">Fixar Stake no Result. 1</label>
+                    </div>
+                </div>
+
+                <div class="input-group-wrapper" id="investment-wrapper">
+                    <div class="form-group">
+                        <label for="total-investment" id="investment-label">Investimento Total (R$)</label>
+                        <div class="input-with-icon">
+                            <span class="input-icon">R$</span>
+                            <input type="number" id="total-investment" value="200" min="1" step="any" placeholder="Ex: 200">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="odds-container" class="odds-inputs">
+                    <!-- Outcome Rows will be injected here by JS, but standard initial 2 outcome template is shown below for SSR structure -->
+                    <div class="outcome-row" data-index="1">
+                        <div class="outcome-title-row">
+                            <span class="outcome-badge bg-primary">Resultado 1</span>
+                            <input type="text" class="outcome-label-input" value="Vitória Casa / 1" placeholder="Rótulo (ex: Vitória Casa)">
+                        </div>
+                        <div class="outcome-fields">
+                            <div class="form-group flex-1">
+                                <label>Odd (Cotação)</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon"><i class="fa-solid fa-percentage"></i></span>
+                                    <input type="number" class="odd-input" value="1.95" min="1.01" step="0.01" placeholder="Ex: 1.95">
+                                </div>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Casa de Aposta</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon"><i class="fa-solid fa-building-columns"></i></span>
+                                    <input type="text" class="bookmaker-input" value="Betano" placeholder="Ex: Betano">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="outcome-row" data-index="2">
+                        <div class="outcome-title-row">
+                            <span class="outcome-badge bg-secondary">Resultado 2</span>
+                            <input type="text" class="outcome-label-input" value="Vitória Fora / 2" placeholder="Rótulo (ex: Vitória Fora)">
+                        </div>
+                        <div class="outcome-fields">
+                            <div class="form-group flex-1">
+                                <label>Odd (Cotação)</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon"><i class="fa-solid fa-percentage"></i></span>
+                                    <input type="number" class="odd-input" value="2.15" min="1.01" step="0.01" placeholder="Ex: 2.15">
+                                </div>
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Casa de Aposta</label>
+                                <div class="input-with-icon">
+                                    <span class="input-icon"><i class="fa-solid fa-building-columns"></i></span>
+                                    <input type="text" class="bookmaker-input" value="Rivalo" placeholder="Ex: Rivalo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions-wrapper">
+                    <button id="btn-calculate" class="btn btn-primary btn-block">
+                        <i class="fa-solid fa-circle-nodes"></i> Calcular Arbitragem
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Column: Results & Analysis -->
+            <section class="results-column">
+                <!-- Status Box (Profit/Loss indicator) -->
+                <div id="status-card" class="card status-card info-status">
+                    <div class="status-content">
+                        <div class="status-icon">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </div>
+                        <div class="status-text">
+                            <h3>Aguardando Dados</h3>
+                            <p>Preencha os valores ao lado e clique em calcular para analisar a viabilidade da aposta.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Results Card -->
+                <div id="results-card" class="card results-card hidden">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-chart-pie"></i> Resumo do Investimento</h2>
+                    </div>
+
+                    <!-- Mini Stat Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-title">Total Investido</span>
+                            <span class="stat-value" id="res-total-invested">R$ 0,00</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-title">Retorno Garantido</span>
+                            <span class="stat-value" id="res-total-return">R$ 0,00</span>
+                        </div>
+                        <div class="stat-box highlighted" id="box-profit">
+                            <span class="stat-title" id="lbl-profit">Lucro Líquido</span>
+                            <span class="stat-value" id="res-net-profit">R$ 0,00</span>
+                        </div>
+                        <div class="stat-box highlighted" id="box-roi">
+                            <span class="stat-title">Retorno (ROI)</span>
+                            <span class="stat-value" id="res-roi">0.00%</span>
+                        </div>
+                    </div>
+
+                    <!-- Stake Table -->
+                    <div class="table-responsive">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Resultado</th>
+                                    <th>Casa de Aposta</th>
+                                    <th>Odd</th>
+                                    <th class="text-right">Aposta (Stake)</th>
+                                    <th class="text-right">Retorno Bruto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stakes-table-body">
+                                <!-- Stakes will be injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Dynamic Probability Progress -->
+                    <div class="probability-analysis">
+                        <label class="section-label">Margem do Mercado e Probabilidades</label>
+                        <div class="stacked-bar" id="probability-bar">
+                            <!-- Injected by JS -->
+                        </div>
+                        <div class="probability-legend" id="probability-legend">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Copy & Save Buttons -->
+                    <div class="results-actions">
+                        <button id="btn-copy" class="btn btn-secondary flex-1">
+                            <i class="fa-solid fa-copy"></i> Copiar Resumo
+                        </button>
+                        <button id="btn-save" class="btn btn-indigo flex-1">
+                            <i class="fa-solid fa-bookmark"></i> Salvar Simulação
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Calculation Math Breakdown -->
+                <div id="math-card" class="card math-card hidden">
+                    <div class="card-header collapsible" id="math-header">
+                        <h2><i class="fa-solid fa-graduation-cap"></i> Como o cálculo foi feito?</h2>
+                        <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                    </div>
+                    <div class="math-content" id="math-content">
+                        <p>Para verificar e calcular a arbitragem (surebet), seguimos o seguinte procedimento matemático:</p>
+                        <ol class="math-steps">
+                            <li>
+                                <strong>Probabilidades Implicadas:</strong> Calculamos a probabilidade matemática implícita de cada Odd:
+                                <div class="math-formula">Probabilidade = 1 ÷ Odd</div>
+                                <div id="math-probs-list" class="math-sublist">
+                                    <!-- Injected by JS -->
+                                </div>
+                            </li>
+                            <li>
+                                <strong>Soma das Probabilidades:</strong> Somamos todos os valores. Para que seja uma Surebet, a soma deve ser <strong>menor que 100%</strong>:
+                                <div class="math-formula formula-calc" id="math-probs-sum"></div>
+                                <div id="math-verdict-text"></div>
+                            </li>
+                            <li>
+                                <strong>Distribuição dos Aportes:</strong> O valor do investimento é distribuído proporcionalmente ao peso de cada probabilidade sobre a soma total.
+                                <div class="math-formula">Aposta = (Probabilidade do Resultado ÷ Soma Total) × Investimento Total</div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- History Section -->
+        <section class="history-section card">
+            <div class="card-header history-header-wrapper">
+                <div>
+                    <h2><i class="fa-solid fa-history"></i> Histórico de Simulações</h2>
+                    <p>Simulações salvas no seu navegador para comparação.</p>
+                </div>
+                <button id="btn-clear-history" class="btn btn-danger btn-sm hidden">
+                    <i class="fa-solid fa-trash-can"></i> Limpar Histórico
+                </button>
+            </div>
+            
+            <div id="history-empty" class="history-empty">
+                <i class="fa-solid fa-box-open"></i>
+                <p>Nenhuma simulação salva ainda. Faça um cálculo e clique em "Salvar Simulação" acima.</p>
+            </div>
+
+            <div id="history-list" class="history-list hidden">
+                <!-- History items injected by JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container footer-container">
+            <p>&copy; 2026 SureCalc. Desenvolvido para auxílio matemático em investimentos esportivos.</p>
+            <p class="disclaimer">Aviso: A arbitragem esportiva envolve riscos operacionais (mudanças rápidas de odds, cancelamentos de apostas pelas casas, limites de conta). Aposte com responsabilidade.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification for copies -->
+    <div id="toast" class="toast hidden">
+        <i class="fa-solid fa-check-circle"></i> <span id="toast-message">Copiado com sucesso!</span>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="app.js"></script>
+</body>
+</html>
