@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apps Hub - Coleção de ferramentas analíticas e matemáticas para otimização de investimentos esportivos desenvolvidas por duvilela.">
+    <title>duvilela | Apps Hub</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #09090b;
+            --bg-card: rgba(24, 24, 27, 0.45);
+            --bg-card-hover: rgba(24, 24, 27, 0.75);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            
+            --accent-blue: #00D2FF;
+            --accent-blue-glow: rgba(0, 210, 255, 0.15);
+            --accent-royal: #0052D4;
+            --accent-royal-glow: rgba(0, 82, 212, 0.15);
+            --accent-purple: #8b5cf6;
+            --accent-purple-glow: rgba(139, 92, 246, 0.15);
+            --accent-emerald: #10b981;
+            --accent-emerald-glow: rgba(16, 185, 129, 0.15);
+            
+            --font-title: 'Outfit', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 90px;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Glow & Grid */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+            pointer-events: none;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(140px);
+            z-index: -1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .orb-1 {
+            top: -15%;
+            left: 15%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-blue-glow) 0%, transparent 70%);
+        }
+        .orb-2 {
+            bottom: -10%;
+            right: 15%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, var(--accent-purple-glow) 0%, transparent 70%);
+        }
+
+        /* Fixed Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            z-index: 1000;
+            background: rgba(9, 9, 11, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .brand-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #09090b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .nav-brand .dot {
+            color: var(--accent-blue);
+            transition: var(--transition);
+        }
+
+        .nav-brand:hover .dot {
+            color: var(--accent-purple);
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .status-badge {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.7);
+            animation: pulse 1.6s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 6px rgba(0, 210, 255, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(0, 210, 255, 0);
+            }
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 800px;
+            margin: 60px auto 40px auto;
+            text-align: center;
+            padding: 0 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .hero-title {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.25rem;
+            background: linear-gradient(135deg, #fff 40%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* Container & Cards Grid */
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            flex-grow: 1;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 80px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 50px -20px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-blue {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-royal));
+            box-shadow: 0 4px 15px var(--accent-blue-glow);
+        }
+
+        .icon-emerald {
+            background: linear-gradient(135deg, var(--accent-emerald), #047857);
+            box-shadow: 0 4px 15px var(--accent-emerald-glow);
+        }
+
+        .card-title-area h2 {
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 0.1rem;
+            display: inline-block;
+        }
+
+        .tag-blue { color: var(--accent-blue); }
+        .tag-emerald { color: var(--accent-emerald); }
+
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+            flex-grow: 1;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1.25rem;
+        }
+
+        .card-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .card-features li i {
+            font-size: 0.9rem;
+        }
+
+        .li-blue i { color: var(--accent-blue); }
+        .li-emerald i { color: var(--accent-emerald); }
+
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            border: none;
+        }
+
+        .btn-primary-blue {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-royal));
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .btn-primary-blue:hover {
+            box-shadow: 0 5px 15px var(--accent-blue-glow);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary-emerald {
+            background: linear-gradient(135deg, var(--accent-emerald), #059669);
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .btn-primary-emerald:hover {
+            box-shadow: 0 5px 15px var(--accent-emerald-glow);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(9, 9, 11, 0.6);
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Grid and Orbs background -->
+    <div class="grid-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Header Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="nav-brand" href="#">
+                <div class="brand-avatar">D</div>
+                duvilela<span class="dot">.</span>
+            </a>
+            <div class="nav-center">
+                <div class="status-badge">
+                    <span class="pulse-dot"></span>
+                    <span>Apps Online</span>
+                </div>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/duvilela" target="_blank" class="nav-link">
+                    <i class="fa-brands fa-github"></i> <span>GitHub</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1 class="hero-title">Hub de <span>Aplicativos</span></h1>
+            <p class="hero-desc">
+                Coleção de utilitários e painéis interativos desenvolvidos para análise, gestão financeira e otimização matemática de investimentos esportivos.
+            </p>
+        </header>
+
+        <!-- Cards Grid -->
+        <section class="cards-grid">
+            <!-- App 1: BetAnalytix -->
+            <article class="card">
+                <div class="card-header">
+                    <div class="card-icon icon-blue">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div class="card-title-area">
+                        <h2>BetAnalytix</h2>
+                        <span class="card-tag tag-blue">Gestão & Estatísticas</span>
+                    </div>
+                </div>
+                <p class="card-desc">
+                    Um painel completo de gestão de banca para apostadores. Permite cadastrar operações, analisar gráficos de lucros, controlar o ROI (Retorno sobre Investimento) e entender seus pontos fortes através de relatórios estatísticos detalhados.
+                </p>
+                <ul class="card-features li-blue">
+                    <li><i class="fa-solid fa-check"></i> Controle de banca e depósitos/saques</li>
+                    <li><i class="fa-solid fa-check"></i> Análise de rendimento com gráficos interativos</li>
+                    <li><i class="fa-solid fa-check"></i> Relatórios de lucros por mercados e esportes</li>
+                    <li><i class="fa-solid fa-check"></i> Histórico completo de registros de apostas</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="betanalytix/login.html" class="btn btn-primary-blue">
+                        <i class="fa-solid fa-rocket"></i> Acessar App
+                    </a>
+                    <a href="https://github.com/duvilela/apps/tree/main/betanalytix" target="_blank" class="btn btn-secondary">
+                        <i class="fa-brands fa-github"></i> Código
+                    </a>
+                </div>
+            </article>
+
+            <!-- App 2: SureCalc -->
+            <article class="card">
+                <div class="card-header">
+                    <div class="card-icon icon-emerald">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <div class="card-title-area">
+                        <h2>SureCalc</h2>
+                        <span class="card-tag tag-emerald">Arbitragem Esportiva</span>
+                    </div>
+                </div>
+                <p class="card-desc">
+                    Uma calculadora de Surebets inteligente e reativa. Insira as odds de 2 ou 3 casas de apostas diferentes e descubra instantaneamente se há oportunidade de lucro garantido de forma proporcional ou com stake fixa no primeiro resultado.
+                </p>
+                <ul class="card-features li-emerald">
+                    <li><i class="fa-solid fa-check"></i> Cálculo proporcional automático em tempo real</li>
+                    <li><i class="fa-solid fa-check"></i> Suporte para 2 ou 3 resultados (Casas)</li>
+                    <li><i class="fa-solid fa-check"></i> Histórico de simulações salvo no navegador</li>
+                    <li><i class="fa-solid fa-check"></i> Copiar resumo rápido formatado para compartilhamento</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="surecalc/index.html" class="btn btn-primary-emerald">
+                        <i class="fa-solid fa-calculator"></i> Acessar App
+                    </a>
+                    <a href="https://github.com/duvilela/apps/tree/main/surecalc" target="_blank" class="btn btn-secondary">
+                        <i class="fa-brands fa-github"></i> Código
+                    </a>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="nav-container footer-content">
+            <p>&copy; 2026 duvilela. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="https://github.com/duvilela" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+                <a href="https://github.com/duvilela/apps" target="_blank"><i class="fa-solid fa-code-fork"></i> Repositório Hub</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
