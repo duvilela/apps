@@ -242,7 +242,8 @@ function renderCalendar(bets) {
   // 4. Agrupamento de apostas por dia (evitando fuso horário UTC usando split)
   const betsByDay = {};
   bets.forEach(bet => {
-    const parts = bet.date.split('-');
+    const datePart = bet.date.split('T')[0];
+    const parts = datePart.split('-');
     if (parts.length === 3) {
       const year = parseInt(parts[0], 10);
       const month = parseInt(parts[1], 10) - 1; // 0-indexed

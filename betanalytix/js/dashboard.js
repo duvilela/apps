@@ -517,7 +517,8 @@ async function renderRecentBets(bankrollId, currency) {
       const item = document.createElement('div');
       item.className = 'recent-bet-item';
       
-      const parts = bet.date.split('-');
+      const datePart = bet.date.split('T')[0];
+      const parts = datePart.split('-');
       const formattedDate = `${parts[2]}/${parts[1]}`;
       
       // Mapeia classes de status
@@ -567,7 +568,7 @@ async function openEditBetModal(bet) {
   document.getElementById('bet-id').value = bet._id;
   
   // Formata data YYYY-MM-DD
-  document.getElementById('bet-date').value = bet.date;
+  document.getElementById('bet-date').value = bet.date.split('T')[0];
   document.getElementById('bet-time').value = bet.time;
   document.getElementById('bet-title').value = bet.title;
   document.getElementById('bet-sport').value = bet.sport;

@@ -338,7 +338,8 @@ function renderBetsTable(bets) {
     const currency = bankroll ? bankroll.currency : 'BRL';
     const bankrollName = bankroll ? bankroll.name : 'Desconhecida';
 
-    const parts = bet.date.split('-');
+    const datePart = bet.date.split('T')[0];
+    const parts = datePart.split('-');
     const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
 
     // Classes de status
@@ -410,7 +411,8 @@ function renderBetsMobileList(bets) {
     const currency = bankroll ? bankroll.currency : 'BRL';
     const bankrollName = bankroll ? bankroll.name : 'Desconhecida';
 
-    const parts = bet.date.split('-');
+    const datePart = bet.date.split('T')[0];
+    const parts = datePart.split('-');
     const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
 
     // Classes de status
@@ -473,7 +475,7 @@ window.openEditModalFromList = function(id) {
   document.getElementById('bet-modal-title').textContent = 'Editar Entrada';
   document.getElementById('bet-id').value = bet._id;
   
-  document.getElementById('bet-date').value = bet.date;
+  document.getElementById('bet-date').value = bet.date.split('T')[0];
   document.getElementById('bet-time').value = bet.time;
   document.getElementById('bet-title').value = bet.title;
   document.getElementById('bet-sport').value = bet.sport;
