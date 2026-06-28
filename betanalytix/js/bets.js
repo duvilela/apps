@@ -338,8 +338,8 @@ function renderBetsTable(bets) {
     const currency = bankroll ? bankroll.currency : 'BRL';
     const bankrollName = bankroll ? bankroll.name : 'Desconhecida';
 
-    const betDate = new Date(bet.date);
-    const formattedDate = `${String(betDate.getDate()).padStart(2, '0')}/${String(betDate.getMonth() + 1).padStart(2, '0')}/${betDate.getFullYear()}`;
+    const parts = bet.date.split('-');
+    const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
 
     // Classes de status
     let badgeClass = 'badge-pending';
@@ -410,8 +410,8 @@ function renderBetsMobileList(bets) {
     const currency = bankroll ? bankroll.currency : 'BRL';
     const bankrollName = bankroll ? bankroll.name : 'Desconhecida';
 
-    const betDate = new Date(bet.date);
-    const formattedDate = `${String(betDate.getDate()).padStart(2, '0')}/${String(betDate.getMonth() + 1).padStart(2, '0')}/${betDate.getFullYear()}`;
+    const parts = bet.date.split('-');
+    const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
 
     // Classes de status
     let badgeClass = 'badge-pending';
@@ -473,8 +473,7 @@ window.openEditModalFromList = function(id) {
   document.getElementById('bet-modal-title').textContent = 'Editar Entrada';
   document.getElementById('bet-id').value = bet._id;
   
-  const localDate = new Date(bet.date).toISOString().split('T')[0];
-  document.getElementById('bet-date').value = localDate;
+  document.getElementById('bet-date').value = bet.date;
   document.getElementById('bet-time').value = bet.time;
   document.getElementById('bet-title').value = bet.title;
   document.getElementById('bet-sport').value = bet.sport;

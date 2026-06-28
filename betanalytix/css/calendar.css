@@ -1,0 +1,185 @@
+/* Full Calendar Page Styling */
+
+.calendar-container {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-top: 12px;
+}
+
+.calendar-header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.calendar-month-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.calendar-grid-full {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+.calendar-day-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  text-align: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.calendar-day-cell {
+  min-height: 110px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.calendar-day-cell:hover {
+  background-color: var(--bg-input);
+  border-color: var(--text-muted);
+}
+
+.calendar-day-cell.today {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+.calendar-day-number {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  align-self: flex-end;
+}
+
+.calendar-day-cell.today .calendar-day-number {
+  color: var(--accent-color);
+}
+
+.calendar-day-bets-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  overflow-y: auto;
+  max-height: 80px;
+}
+
+.calendar-bet-indicator {
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-input);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  display: block;
+}
+
+.calendar-bet-indicator.won {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: var(--success-color);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.calendar-bet-indicator.lost {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: var(--danger-color);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.calendar-bet-indicator.pending {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.calendar-bet-indicator.void {
+  background-color: rgba(107, 114, 128, 0.12);
+  color: var(--text-muted);
+  border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+/* Células de outros meses / vazias */
+.calendar-day-cell.empty {
+  background-color: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+.calendar-day-cell.empty:hover {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .calendar-day-cell {
+    min-height: 90px;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendar-container {
+    padding: 16px;
+  }
+
+  .calendar-grid-full {
+    gap: 6px;
+  }
+
+  .calendar-day-cell {
+    min-height: 50px;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+  }
+
+  .calendar-day-number {
+    align-self: center;
+    font-size: 12px;
+  }
+
+  .calendar-day-bets-summary {
+    display: none; /* Esconde resumos no mobile para não amontoar */
+  }
+
+  /* Pontos visuais de status para mobile */
+  .calendar-day-cell.has-bets::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    margin-top: 4px;
+  }
+
+  .calendar-day-cell.has-bets-won::after {
+    background-color: var(--success-color) !important;
+  }
+
+  .calendar-day-cell.has-bets-lost::after {
+    background-color: var(--danger-color) !important;
+  }
+}

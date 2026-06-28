@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minhas Apostas - BetAnalytix</title>
+  <title>Calendário - BetAnalytix</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/bets.css">
+  <link rel="stylesheet" href="css/calendar.css">
 </head>
 
 <body>
@@ -48,7 +48,7 @@
             Dashboard
           </a>
         </li>
-        <li class="sidebar-item active">
+        <li class="sidebar-item">
           <a href="bets.html">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -62,7 +62,7 @@
             Minhas Apostas
           </a>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item active">
           <a href="calendar.html">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             Calendário
@@ -113,11 +113,18 @@
       <!-- Top Header -->
       <section class="dashboard-header">
         <div class="dashboard-title-area">
-          <h1>Gestão de Apostas</h1>
-          <span class="dashboard-subtitle">Histórico, filtros e controle das suas entradas.</span>
+          <h1>Calendário de Apostas</h1>
+          <span class="dashboard-subtitle">Visualização mensal detalhada e controle de todas as suas entradas.</span>
         </div>
-        <br />
+        
         <div class="dashboard-actions">
+          <!-- Seletor de Banca Ativa -->
+          <div class="bankroll-selector-wrapper">
+            <select id="bankroll-select" class="bankroll-select">
+              <option value="">Carregando bancas...</option>
+            </select>
+          </div>
+          
           <button class="btn btn-primary btn-sm" id="btn-add-bet">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -129,110 +136,27 @@
         </div>
       </section>
 
-      <!-- Advanced Filters Card -->
-      <section class="filter-card">
-        <form id="filter-form">
-          <div class="filter-grid">
-            <div class="form-group" style="margin-bottom: 0;">
-              <label for="filter-search" class="form-label">Pesquisa</label>
-              <input type="text" id="filter-search" class="form-control" placeholder="Título ou casa...">
-            </div>
-
-            <div class="form-group" style="margin-bottom: 0;">
-              <label for="filter-bankroll" class="form-label">Banca</label>
-              <select id="filter-bankroll" class="form-control">
-                <option value="">Todas as bancas</option>
-              </select>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 0;">
-              <label for="filter-sport" class="form-label">Esporte</label>
-              <input type="text" id="filter-sport" class="form-control" placeholder="Todos" list="sports-filter-list">
-              <datalist id="sports-filter-list">
-                <!-- Preenchido dinamicamente -->
-              </datalist>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 0;">
-              <label for="filter-status" class="form-label">Status</label>
-              <select id="filter-status" class="form-control">
-                <option value="">Todos os status</option>
-                <option value="Pending">Pendente</option>
-                <option value="Won">Ganhou</option>
-                <option value="Lost">Perdeu</option>
-                <option value="Void">Anulada</option>
-              </select>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 0;">
-              <label for="filter-start-date" class="form-label">De</label>
-              <input type="date" id="filter-start-date" class="form-control">
-            </div>
-
-            <div class="form-group" style="margin-bottom: 0;">
-              <label for="filter-end-date" class="form-label">Até</label>
-              <input type="date" id="filter-end-date" class="form-control">
-            </div>
-
-            <button type="button" class="btn btn-secondary" id="btn-clear-filters"
-              style="width: 100%; white-space: nowrap;">
-              Limpar Filtros
-            </button>
-          </div>
-        </form>
-      </section>
-
-      <!-- Dynamic Filter Summary Strip -->
-      <section class="bets-summary-strip">
-        <div class="summary-strip-card">
-          <span class="summary-strip-title">Total Apostado</span>
-          <span class="summary-strip-value" id="summary-total-staked">---</span>
+      <!-- Calendário Card Completo -->
+      <section class="calendar-container">
+        <div class="calendar-header-nav">
+          <button class="btn btn-secondary btn-sm" id="btn-prev-month" title="Mês Anterior" style="padding: 8px 12px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <h2 class="calendar-month-title" id="calendar-title">Carregando...</h2>
+          <button class="btn btn-secondary btn-sm" id="btn-next-month" title="Próximo Mês" style="padding: 8px 12px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
         </div>
-        <div class="summary-strip-card">
-          <span class="summary-strip-title">Resultado Líquido</span>
-          <span class="summary-strip-value" id="summary-total-profit">---</span>
-        </div>
-        <div class="summary-strip-card">
-          <span class="summary-strip-title">ROI da Seleção</span>
-          <span class="summary-strip-value" id="summary-total-roi">---</span>
-        </div>
-      </section>
 
-      <!-- Desktop Table -->
-      <section class="bets-table-wrapper">
-        <table class="bets-table">
-          <thead>
-            <tr>
-              <th>Data/Hora</th>
-              <th>Banca</th>
-              <th>Título / Esporte</th>
-              <th>Casa</th>
-              <th>Cotação</th>
-              <th>Aposta</th>
-              <th>Retorno Líquido</th>
-              <th>Status</th>
-              <th style="width: 100px;">Ações</th>
-            </tr>
-          </thead>
-          <tbody id="bets-table-body">
-            <tr>
-              <td colspan="9" style="text-align: center; color: var(--text-secondary); padding: 40px;">
-                Buscando histórico de apostas...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- Mobile List -->
-      <section class="bets-mobile-list" id="bets-mobile-container">
-        <!-- Renderizado dinamicamente -->
+        <div class="calendar-grid-full" id="calendar-days-grid">
+          <!-- Gerado via JavaScript -->
+        </div>
       </section>
 
     </main>
   </div>
 
-  <!-- MODAL: Adicionar/Editar Aposta -->
+  <!-- MODAL: Adicionar Aposta -->
   <div class="modal" id="modal-bet">
     <div class="modal-content" style="max-width: 650px;">
       <div class="modal-header">
@@ -255,17 +179,16 @@
         <div class="form-row">
           <div class="form-group">
             <label for="bet-title" class="form-label">Título da Aposta</label>
-            <input type="text" id="bet-title" class="form-control" placeholder="Ex: Flamengo para vencer, Over 2.5 gols"
-              required>
+            <input type="text" id="bet-title" class="form-control" placeholder="Ex: Flamengo para vencer, Over 2.5 gols" required>
           </div>
           <div class="form-group">
             <label for="bet-sport" class="form-label">Esporte</label>
-            <input type="text" id="bet-sport" class="form-control" placeholder="Ex: Futebol, Basquete"
-              list="sports-datalist" required>
+            <input type="text" id="bet-sport" class="form-control" placeholder="Ex: Futebol, Basquete, Tênis" list="sports-datalist" required>
             <datalist id="sports-datalist">
               <option value="Futebol">
               <option value="Basquete">
               <option value="Tênis">
+              <option value="Vôlei">
               <option value="MMA/UFC">
               <option value="E-Sports">
             </datalist>
@@ -275,14 +198,14 @@
         <div class="form-row">
           <div class="form-group">
             <label for="bet-bookmaker" class="form-label">Casa de Apostas</label>
-            <input type="text" id="bet-bookmaker" class="form-control" placeholder="Ex: Bet365, Betano, Pinnacle"
-              list="bookmakers-datalist" required>
+            <input type="text" id="bet-bookmaker" class="form-control" placeholder="Ex: Bet365, Betano, Pinnacle" list="bookmakers-datalist" required>
             <datalist id="bookmakers-datalist">
               <option value="Bet365">
               <option value="Betano">
               <option value="Pinnacle">
               <option value="Sportingbet">
               <option value="Betfair">
+              <option value="1xBet">
             </datalist>
           </div>
           <div class="form-group">
@@ -296,8 +219,7 @@
         <div class="grid-three" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
           <div class="form-group">
             <label for="bet-amount" class="form-label">Valor Apostado</label>
-            <input type="number" id="bet-amount" class="form-control" placeholder="50.00" step="0.01" min="0.01"
-              required>
+            <input type="number" id="bet-amount" class="form-control" placeholder="50.00" step="0.01" min="0.01" required>
           </div>
           <div class="form-group">
             <label for="bet-odds" class="form-label">Cotação (Odd)</label>
@@ -314,19 +236,6 @@
           </div>
         </div>
 
-        <div id="bet-delete-area" style="display: none; margin-top: 15px; margin-bottom: 5px;">
-          <button type="button" class="btn btn-danger btn-block btn-sm" id="btn-delete-bet">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"></polyline>
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              <line x1="10" y1="11" x2="10" y2="17"></line>
-              <line x1="14" y1="11" x2="14" y2="17"></line>
-            </svg>
-            Excluir Aposta
-          </button>
-        </div>
-
         <div style="display: flex; gap: 12px; margin-top: 24px;">
           <button type="button" class="btn btn-secondary btn-block" id="btn-cancel-bet">Cancelar</button>
           <button type="submit" class="btn btn-primary btn-block">Confirmar</button>
@@ -336,7 +245,7 @@
   </div>
 
   <script src="js/api.js"></script>
-  <script src="js/bets.js"></script>
+  <script src="js/calendar.js"></script>
 </body>
 
 </html>

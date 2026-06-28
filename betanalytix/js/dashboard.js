@@ -280,8 +280,6 @@ function clearDashboardUI() {
   
   document.getElementById('recent-bets-container').innerHTML = 
     '<div style="text-align: center; color: var(--text-secondary); padding: 20px;">Nenhuma banca ativa encontrada. Crie uma nova banca acima!</div>';
-  
-  renderEmptyCalendar();
 }
 
 /**
@@ -325,9 +323,6 @@ async function loadDashboardData(bankrollId) {
 
     // Carrega Entradas Recentes
     renderRecentBets(res.bankroll.id, currency);
-
-    // Carrega Calendário de Apostas
-    renderBetCalendar(res.bankroll.id);
   } else {
     alert('Erro ao carregar estatísticas da banca.');
   }
@@ -522,8 +517,8 @@ async function renderRecentBets(bankrollId, currency) {
       const item = document.createElement('div');
       item.className = 'recent-bet-item';
       
-      const betDate = new Date(bet.date);
-      const formattedDate = `${String(betDate.getDate()).padStart(2, '0')}/${String(betDate.getMonth() + 1).padStart(2, '0')}`;
+      const parts = bet.date.split('-');
+      const formattedDate = `${parts[2]}/${parts[1]}`;
       
       // Mapeia classes de status
       let badgeClass = 'badge-pending';
@@ -572,8 +567,7 @@ async function openEditBetModal(bet) {
   document.getElementById('bet-id').value = bet._id;
   
   // Formata data YYYY-MM-DD
-  const localDate = new Date(bet.date).toISOString().split('T')[0];
-  document.getElementById('bet-date').value = localDate;
+  document.getElementById('bet-date').value = bet.date;
   document.getElementById('bet-time').value = bet.time;
   document.getElementById('bet-title').value = bet.title;
   document.getElementById('bet-sport').value = bet.sport;
@@ -587,105 +581,4 @@ async function openEditBetModal(bet) {
   document.getElementById('modal-bet').classList.add('active');
 }
 
-// --- MINI CALENDÁRIO ---
 
-function renderEmptyCalendar() {
-  const grid = document.getElementById('calendar-days-grid');
-  grid.innerHTML = '<div style="grid-column: span 7; color: var(--text-muted); font-size: 13px; padding: 20px;">Sem dados de calendário</div>';
-}
-
-async function renderBetCalendar(bankrollId) {
-  const res = await apiFetch(`/bets?bankrollId=${bankrollId}`);
-  if (!res || !res.success) {
-    renderEmptyCalendar();
-    return;
-  }
-
-  const grid = document.getElementById('calendar-days-grid');
-  grid.innerHTML = '';
-
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth(); // 0-indexed
-
-  // Nome do mês legível
-  const monthNames = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-  ];
-  document.getElementById('calendar-title').textContent = `${monthNames[currentMonth]} ${currentYear}`;
-
-  // Dias da semana cabeçalho
-  const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-  daysOfWeek.forEach(day => {
-    const el = document.createElement('div');
-    el.className = 'calendar-day-label';
-    el.textContent = day;
-    grid.appendChild(el);
-  });
-
-  // Dias totais do mês
-  const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
-  const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-  // Preenche células vazias antes do primeiro dia do mês
-  for (let i = 0; i < firstDayIndex; i++) {
-    const empty = document.createElement('div');
-    grid.appendChild(empty);
-  }
-
-  // Mapear apostas por dia
-  const betsByDay = {};
-  res.data.forEach(bet => {
-    const bDate = new Date(bet.date);
-    if (bDate.getFullYear() === currentYear && bDate.getMonth() === currentMonth) {
-      const day = bDate.getDate();
-      if (!betsByDay[day]) betsByDay[day] = [];
-      betsByDay[day].push(bet);
-    }
-  });
-
-  // Gerar dias do mês
-  for (let day = 1; day <= totalDays; day++) {
-    const cell = document.createElement('div');
-    cell.className = 'calendar-day';
-    cell.textContent = day;
-
-    if (day === now.getDate() && currentMonth === now.getMonth() && currentYear === now.getFullYear()) {
-      cell.classList.add('today');
-    }
-
-    // Verifica apostas neste dia específico
-    const dayBets = betsByDay[day];
-    if (dayBets && dayBets.length > 0) {
-      cell.classList.add('has-bets');
-      
-      // Verifica o resultado geral do dia para pintar a bolinha do calendário
-      let hasWon = false;
-      let hasLost = false;
-      
-      dayBets.forEach(b => {
-        if (b.status === 'Won') hasWon = true;
-        if (b.status === 'Lost') hasLost = true;
-      });
-
-      if (hasWon && !hasLost) {
-        cell.classList.add('has-bets-won');
-      } else if (hasLost) {
-        cell.classList.add('has-bets-lost');
-      }
-      
-      // Tooltip simples com títulos das apostas
-      const titles = dayBets.map(b => `${b.status === 'Won' ? '✅' : b.status === 'Lost' ? '❌' : '⏳'} ${b.title}`).join('\n');
-      cell.title = `${dayBets.length} aposta(s):\n${titles}`;
-      
-      // Clicar no dia abre modal com filtros daquele dia na tela de apostas (ou apenas mostra informações)
-      cell.addEventListener('click', () => {
-        const queryDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        window.location.href = `bets.html?date=${queryDate}`;
-      });
-    }
-
-    grid.appendChild(cell);
-  }
-}
